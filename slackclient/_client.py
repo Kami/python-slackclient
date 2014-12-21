@@ -12,8 +12,8 @@ class SlackClient(object):
 
     def rtm_connect(self):
         try:
-            self.server.rtm_connect()
-            return True
+            data = self.server.rtm_connect()
+            return data
         except:
             return False
 

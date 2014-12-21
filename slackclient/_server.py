@@ -36,12 +36,14 @@ class Server(object):
 
     def rtm_connect(self):
         reply = self.api_requester.do(self.token, "rtm.start")
+
         if reply.code != 200:
             raise SlackConnectionError
         else:
-            reply = json.loads(reply.read())
-            if reply["ok"]:
-                self.parse_slack_login_data(reply)
+            data = json.loads(reply.read())
+            if data["ok"]:
+                self.parse_slack_login_data(data)
+                return data
             else:
                 raise SlackLoginError
 
