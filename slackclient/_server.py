@@ -1,5 +1,6 @@
 from _slackrequest import SlackRequest
 from _channel import Channel
+from _user import User
 from _util import SearchList
 
 from websocket import create_connection
@@ -48,14 +49,27 @@ class Server(object):
         self.login_data = login_data
         self.domain = self.login_data["team"]["domain"]
         self.username = self.login_data["self"]["name"]
+
+        self.parse_user_data(login_data['users'])
         self.parse_channel_data(login_data["channels"])
         self.parse_channel_data(login_data["groups"])
         self.parse_channel_data(login_data["ims"])
+
         try:
             self.websocket = create_connection(self.login_data['url'])
             self.websocket.sock.setblocking(0)
         except:
             raise SlackConnectionError
+
+    def parse_user_data(self, user_data):
+        for user in user_data:
+            user_obj = User(id=user['id'], name=user['name'],
+                            first_name=user['profile']['first_name'],
+                            last_name=user['profile']['last_name'],
+                            real_name=user['profile']['real_name'],
+                            is_admin=user['is_admin'],
+                            is_owner=user['is_owner'])
+            self.users.append(user_obj)
 
     def parse_channel_data(self, channel_data):
         for channel in channel_data:
