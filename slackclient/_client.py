@@ -13,9 +13,10 @@ class SlackClient(object):
     def rtm_connect(self):
         try:
             data = self.server.rtm_connect()
-            return data
-        except:
-            return False
+        except Exception, e:
+            raise e
+
+        return data
 
     def api_call(self, method, **kwargs):
         return self.server.api_call(method, **kwargs)

@@ -45,7 +45,7 @@ class Server(object):
                 self.parse_slack_login_data(data)
                 return data
             else:
-                raise SlackLoginError
+                raise SlackLoginError('Invalid api key')
 
     def parse_slack_login_data(self, login_data):
         self.login_data = login_data
