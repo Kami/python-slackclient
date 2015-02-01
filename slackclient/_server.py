@@ -69,8 +69,8 @@ class Server(object):
                             first_name=user['profile']['first_name'],
                             last_name=user['profile']['last_name'],
                             real_name=user['profile']['real_name'],
-                            is_admin=user['is_admin'],
-                            is_owner=user['is_owner'])
+                            is_admin=user.get('is_admin', False),
+                            is_owner=user.get('is_owner', False))
             self.users.append(user_obj)
 
     def parse_channel_data(self, channel_data):
