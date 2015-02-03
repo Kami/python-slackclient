@@ -66,9 +66,9 @@ class Server(object):
     def parse_user_data(self, user_data):
         for user in user_data:
             user_obj = User(id=user['id'], name=user['name'],
-                            first_name=user['profile']['first_name'],
-                            last_name=user['profile']['last_name'],
-                            real_name=user['profile']['real_name'],
+                            first_name=user['profile'].get('first_name', None),
+                            last_name=user['profile'].get('last_name', None),
+                            real_name=user['profile'].get('real_name', None),
                             is_admin=user.get('is_admin', False),
                             is_owner=user.get('is_owner', False))
             self.users.append(user_obj)
